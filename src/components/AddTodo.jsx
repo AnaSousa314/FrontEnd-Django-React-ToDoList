@@ -15,7 +15,7 @@ const AppTodo = () =>{
             <Form.Control type="text" placeholder="Enter Description" />
         </Form.Group>
 
-        <Button variant="primary" type="submit">Add ToDo</Button>
+        <Button variant="primary" type="submit" className="mt-2">Add ToDo</Button>
       </Form>
     </>
   )
