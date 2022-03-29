@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Form, Row, Button } from "react-bootstrap";
 
-const Todo = () =>{
+const Todo = ({id,title,description}) =>{
   return(
     <>
       <Row className="border-bottom pt-3">
@@ -12,8 +12,8 @@ const Todo = () =>{
         </Col>
 
         <Col>
-          <h5>ToDo Title</h5>
-          <p>ToDo Description</p>
+          <h5>{title}</h5>
+          <p>{description}</p>
         </Col>
 
         <Col md={2}>
