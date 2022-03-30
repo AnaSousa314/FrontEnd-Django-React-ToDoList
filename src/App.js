@@ -37,6 +37,35 @@ function App() {
     }
   }
 
+const completeTodo = async id =>{
+  try {
+    const todo = todos.filter(todo => todo.id === id)[0]
+    todo.completed = true
+    await axios.put(`/api/v1/todo/${id}/`, todo);
+    getTodos();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const editTodo = async todo =>{
+  try {
+    await axios.put(`/api/v1/todo/${todo.id}/`, todo);
+    getTodos();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteTodo = async id =>{
+  try {
+    const todo = todos.filter(todo => todo.id === id)[0]
+    await axios.delete(`/api/v1/todo/${id}/`, todo);
+    getTodos();
+  } catch (error) {
+    console.log(error)
+  }
+}
 
   return (
     <>
@@ -49,8 +78,17 @@ function App() {
                 <AddTodo addTodo={addTodo}/>
 
                 {todos.map((todo,index)=>{
-                  return <Todo key={index} id={todo.id} title={todo.title} description={todo.description}/>
-                })}
+                  return !todo.completed 
+                  &&  <Todo 
+                    key={index} 
+                    id={todo.id} 
+                    title={todo.title} 
+                    description={todo.description} 
+                    completeTodo={completeTodo} 
+                    editTodo={editTodo}
+                    deleteTodo={deleteTodo}
+                  />
+                })} 
               </Card>
             </Col>
           </Row>

@@ -1,13 +1,47 @@
-import React from "react";
-import { Col, Form, Row, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Col, Form, Row, Button, Modal } from "react-bootstrap";
 
-const Todo = ({id,title,description}) =>{
-  return(
+const Todo = ({
+  id,
+  title,
+  description,
+  completeTodo,
+  deleteTodo,
+  editTodo,
+}) => {
+  const [show, setShow] = useState(false);
+  
+  const [newTitle, setTitle] = useState(title);
+  const [newDescription, setDescription] = useState(description);
+
+  const handleClose = () =>{ 
+    setShow(false)
+    setTitle(title)
+    setDescription(description)
+  };
+  const handleShow = () => setShow(true);
+
+
+  const editTodoHandler = (title, description) =>{
+      handleClose()
+      const todo = {
+        id,
+        title,
+        description
+      }
+
+      editTodo(todo)
+
+      setTitle(title)
+      setDescription(description)
+  }
+
+  return (
     <>
       <Row className="border-bottom pt-3">
         <Col md={1}>
           <Form>
-            <Form.Check type="checkbox"/>
+            <Form.Check type="checkbox" onChange={() => completeTodo(id)} />
           </Form>
         </Col>
 
@@ -18,20 +52,63 @@ const Todo = ({id,title,description}) =>{
 
         <Col md={2}>
           <Form className="d-grid gap-2">
-            <Button variant='info' className='my-2 btn btn-block'>
+            <Button
+              variant="info"
+              className="my-2 btn btn-block"
+              onClick={handleShow}
+            >
               Edit
             </Button>
           </Form>
 
           <Form className="d-grid gap-2">
-            <Button variant='danger' className='my-2 btn btn-block'>
+            <Button
+              variant="danger"
+              className="my-2 btn btn-block"
+              onClick={() => deleteTodo(id)}
+            >
               Delete
             </Button>
           </Form>
         </Col>
       </Row>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit ToDo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="title">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                value={newTitle}
+                onChange={e => setTitle(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type="text"
+                value={newDescription}
+                onChange={e => setDescription(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={()=>editTodoHandler(newTitle, newDescription)}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
-  )
-}
+  );
+};
 
 export default Todo;
