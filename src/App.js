@@ -59,8 +59,7 @@ const editTodo = async todo =>{
 
 const deleteTodo = async id =>{
   try {
-    const todo = todos.filter(todo => todo.id === id)[0]
-    await axios.delete(`/api/v1/todo/${id}/`, todo);
+    await axios.delete(`/api/v1/todo/${id}/`);
     getTodos();
   } catch (error) {
     console.log(error)
